@@ -1,0 +1,17 @@
+{
+  "name": "cultured-kitchen",
+  "version": "1.0.0",
+  "description": "Cultured Kitchen Restaurant Management System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server-local.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "pg": "^8.11.3"
+  }
+}

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultured Kitchen | Waiter Dashboard</title>
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="waiter.css">
+</head>
+<body>
+    <button class="mobile-toggle" id="mobile-toggle">☰</button>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">CULTURED KITCHEN</div>
+                <div class="sidebar-role">Waiter Dashboard</div>
+            </div>
+            <ul class="sidebar-nav">
+                <li>
+                    <button class="active" data-view="orders" onclick="switchView('orders')">
+                        <span class="nav-icon">📋</span> My Orders
+                    </button>
+                </li>
+                <li>
+                    <button data-view="new-order" onclick="switchView('new-order')">
+                        <span class="nav-icon">➕</span> Take New Order
+                    </button>
+                </li>
+                <li>
+                    <button data-view="online-orders" onclick="switchView('online-orders')">
+                        <span class="nav-icon">🌐</span> Online Orders
+                        <span class="online-count" id="online-count"></span>
+                    </button>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="user-avatar">W</div>
+                    <div>
+                        <div class="user-name" id="user-name">Waiter</div>
+                        <div class="user-role-tag">Waiter</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">🚪 Sign Out</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- My Orders View -->
+            <div class="view active" id="view-orders">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">My Orders</h1>
+                        <p class="page-subtitle">Track and manage your current orders</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="switchView('new-order')">➕ New Order</button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Active Orders</div>
+                        <div class="stat-value" id="stat-active">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Pending</div>
+                        <div class="stat-value" id="stat-pending">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Ready to Serve</div>
+                        <div class="stat-value" id="stat-ready">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Served Today</div>
+                        <div class="stat-value" id="stat-served">0</div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Active Orders</h3>
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" data-filter="all" onclick="filterOrders('all')">All</button>
+                            <button class="filter-tab" data-filter="pending" onclick="filterOrders('pending')">Pending</button>
+                            <button class="filter-tab" data-filter="cooking" onclick="filterOrders('cooking')">Cooking</button>
+                            <button class="filter-tab" data-filter="ready" onclick="filterOrders('ready')">Ready</button>
+                        </div>
+                    </div>
+                    <div class="orders-grid" id="my-orders-grid">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <div class="empty-state-text">No active orders</div>
+                            <div class="empty-state-sub">Take a new order to get started</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Order View -->
+            <div class="view" id="view-new-order">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Take New Order</h1>
+                        <p class="page-subtitle">Create a new dine-in order</p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="switchView('orders')">← Back</button>
+                </div>
+
+                <div class="new-order-layout">
+                    <div class="order-form-panel panel">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Table Number</label>
+                                <select class="form-select" id="order-table">
+                                    <option value="">Select Table</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Guests</label>
+                                <select class="form-select" id="order-guests">
+                                    <option value="1">1 Guest</option>
+                                    <option value="2" selected>2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                    <option value="5">5 Guests</option>
+                                    <option value="6">6+ Guests</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Special Notes</label>
+                            <textarea class="form-textarea" id="order-notes" placeholder="Any special requests, allergies, etc..."></textarea>
+                        </div>
+
+                        <!-- Menu Items Selection -->
+                        <div class="form-group">
+                            <label class="form-label">Menu Items</label>
+                            <div class="menu-search-wrapper">
+                                <input type="text" class="form-input" id="menu-search" placeholder="🔍 Search menu items...">
+                            </div>
+                        </div>
+
+                        <div class="menu-items-grid" id="menu-items-grid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Order Summary Sidebar -->
+                    <div class="order-summary-panel panel">
+                        <h3 class="panel-title">Order Summary</h3>
+                        <div class="order-summary-items" id="order-summary-items">
+                            <div class="empty-state" style="padding: 30px 0;">
+                                <div class="empty-state-icon">🛒</div>
+                                <div class="empty-state-sub">Add items from the menu</div>
+                            </div>
+                        </div>
+                        <div class="order-summary-footer">
+                            <div class="order-summary-total">
+                                <span>Total</span>
+                                <span id="order-total">₹0</span>
+                            </div>
+                            <button class="btn btn-primary btn-lg" style="width:100%" onclick="placeOrder()" id="place-order-btn">
+                                Place Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Online Orders View -->
+            <div class="view" id="view-online-orders">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Online Orders</h1>
+                        <p class="page-subtitle">Customer orders placed online, waiting to be claimed</p>
+                    </div>
+                </div>
+
+                <div class="orders-grid" id="online-orders-grid">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🌐</div>
+                        <div class="empty-state-text">No online orders</div>
+                        <div class="empty-state-sub">Online orders will appear here</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="sounds.js"></script>
+    <script src="api.js"></script>
+    <script src="waiter.js"></script>
+</body>
+</html>

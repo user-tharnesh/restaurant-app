@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultured Kitchen | Kitchen Display</title>
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="chef.css">
+</head>
+<body>
+    <button class="mobile-toggle" id="mobile-toggle">☰</button>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">CULTURED KITCHEN</div>
+                <div class="sidebar-role">Kitchen Display</div>
+            </div>
+            <ul class="sidebar-nav">
+                <li>
+                    <button class="active" data-view="queue" onclick="switchView('queue')">
+                        <span class="nav-icon">🔥</span> Order Queue
+                        <span class="queue-count" id="queue-count"></span>
+                    </button>
+                </li>
+                <li>
+                    <button data-view="cooking" onclick="switchView('cooking')">
+                        <span class="nav-icon">👨‍🍳</span> My Cooking
+                    </button>
+                </li>
+                <li>
+                    <button data-view="completed" onclick="switchView('completed')">
+                        <span class="nav-icon">✅</span> Completed Today
+                    </button>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="user-avatar">C</div>
+                    <div>
+                        <div class="user-name" id="user-name">Chef</div>
+                        <div class="user-role-tag">Chef</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">🚪 Sign Out</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- Order Queue -->
+            <div class="view active" id="view-queue">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">🔥 Order Queue</h1>
+                        <p class="page-subtitle">Pending orders waiting to be prepared</p>
+                    </div>
+                    <div class="live-indicator">
+                        <span class="live-dot"></span> LIVE
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">In Queue</div>
+                        <div class="stat-value" id="stat-queue">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Currently Cooking</div>
+                        <div class="stat-value" id="stat-cooking">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Ready for Pickup</div>
+                        <div class="stat-value" id="stat-ready">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Completed Today</div>
+                        <div class="stat-value" id="stat-completed">0</div>
+                    </div>
+                </div>
+
+                <div class="kitchen-orders-grid" id="queue-grid">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">☕</div>
+                        <div class="empty-state-text">No pending orders</div>
+                        <div class="empty-state-sub">Relax, the queue is clear!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Cooking View -->
+            <div class="view" id="view-cooking">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">👨‍🍳 My Cooking</h1>
+                        <p class="page-subtitle">Orders you're currently preparing</p>
+                    </div>
+                </div>
+
+                <div class="kitchen-orders-grid" id="cooking-grid">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">👨‍🍳</div>
+                        <div class="empty-state-text">Not cooking anything</div>
+                        <div class="empty-state-sub">Accept an order from the queue</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Today -->
+            <div class="view" id="view-completed">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">✅ Completed Today</h1>
+                        <p class="page-subtitle">Orders you've completed today</p>
+                    </div>
+                </div>
+
+                <div class="kitchen-orders-grid" id="completed-grid">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <div class="empty-state-text">No completed orders yet</div>
+                        <div class="empty-state-sub">Completed orders will appear here</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+    <script src="sounds.js"></script>
+    <script src="api.js"></script>
+    <script src="chef.js"></script>
+</body>
+</html>

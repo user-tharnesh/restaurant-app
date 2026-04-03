@@ -1,0 +1,247 @@
+/* ===== Waiter Dashboard Specific Styles ===== */
+
+/* View Switching */
+.view {
+    display: none;
+}
+
+.view.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Filter Tabs */
+.filter-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.filter-tab {
+    padding: 6px 16px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.filter-tab.active,
+.filter-tab:hover {
+    background: var(--accent-gold);
+    color: #000;
+    border-color: var(--accent-gold);
+}
+
+/* New Order Layout */
+.new-order-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .new-order-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Menu Items Grid */
+.menu-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.menu-item-card {
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    user-select: none;
+}
+
+.menu-item-card:hover {
+    border-color: var(--accent-gold-border);
+    background: var(--bg-card-hover);
+}
+
+.menu-item-card.selected {
+    border-color: var(--accent-gold);
+    background: var(--accent-gold-glow);
+}
+
+.menu-item-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}
+
+.menu-item-price {
+    color: var(--accent-gold);
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.menu-item-category {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Quantity Controls */
+.qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.qty-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.qty-btn:hover {
+    background: var(--accent-gold);
+    color: #000;
+    border-color: var(--accent-gold);
+}
+
+.qty-value {
+    font-weight: 700;
+    font-size: 0.9rem;
+    min-width: 24px;
+    text-align: center;
+}
+
+/* Order Summary Panel */
+.order-summary-panel {
+    position: sticky;
+    top: 32px;
+}
+
+.order-summary-items {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 16px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    animation: fadeIn 0.2s ease;
+}
+
+.summary-item-info {
+    flex: 1;
+}
+
+.summary-item-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.summary-item-qty {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.summary-item-price {
+    font-weight: 600;
+    color: var(--accent-gold);
+    margin: 0 12px;
+}
+
+.summary-remove {
+    background: none;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 4px;
+    opacity: 0.6;
+    transition: opacity var(--transition-fast);
+}
+
+.summary-remove:hover {
+    opacity: 1;
+}
+
+.order-summary-footer {
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.order-summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+/* Menu Search */
+.menu-search-wrapper {
+    position: relative;
+}
+
+.menu-search-wrapper .form-input {
+    margin-bottom: 0;
+}
+
+/* Online Order Badge */
+.online-count {
+    background: var(--danger);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    margin-left: auto;
+    display: none;
+}
+
+.online-count.show {
+    display: inline-block;
+    animation: pulse 2s infinite;
+}
+
+/* Order card action buttons */
+.order-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* ===== Ready Order Highlight ===== */
+.order-card.ready-highlight {
+    border-color: var(--status-ready);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+}
+
+.order-card.ready-highlight .order-id {
+    color: var(--status-ready);
+}

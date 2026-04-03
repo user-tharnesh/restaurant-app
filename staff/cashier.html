@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultured Kitchen | Cashier Dashboard</title>
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="cashier.css">
+</head>
+<body>
+    <button class="mobile-toggle" id="mobile-toggle">☰</button>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">CULTURED KITCHEN</div>
+                <div class="sidebar-role">Cashier Dashboard</div>
+            </div>
+            <ul class="sidebar-nav">
+                <li>
+                    <button class="active" data-view="billing" onclick="switchView('billing')">
+                        <span class="nav-icon">🧾</span> Billing Queue
+                    </button>
+                </li>
+                <li>
+                    <button data-view="collection" onclick="switchView('collection')">
+                        <span class="nav-icon">💰</span> Daily Collection
+                    </button>
+                </li>
+                <li>
+                    <button data-view="history" onclick="switchView('history')">
+                        <span class="nav-icon">📜</span> Transaction History
+                    </button>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="user-avatar">C</div>
+                    <div>
+                        <div class="user-name" id="user-name">Cashier</div>
+                        <div class="user-role-tag">Cashier</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">🚪 Sign Out</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- Billing Queue -->
+            <div class="view active" id="view-billing">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">🧾 Billing Queue</h1>
+                        <p class="page-subtitle">Process payments for ready/served orders</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Awaiting Payment</div>
+                        <div class="stat-value" id="stat-awaiting">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Paid Today</div>
+                        <div class="stat-value" id="stat-paid-today">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Today's Revenue</div>
+                        <div class="stat-value" id="stat-revenue">₹0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Pending Amount</div>
+                        <div class="stat-value" id="stat-pending-amount">₹0</div>
+                    </div>
+                </div>
+
+                <div class="orders-grid" id="billing-grid">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🧾</div>
+                        <div class="empty-state-text">No orders to bill</div>
+                        <div class="empty-state-sub">Ready or served orders will appear here</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Collection -->
+            <div class="view" id="view-collection">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">💰 Daily Collection</h1>
+                        <p class="page-subtitle">Today's collection breakdown by payment method</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card collection-card cash-card">
+                        <div class="stat-label">💵 Cash</div>
+                        <div class="stat-value" id="collection-cash">₹0</div>
+                        <div class="stat-change" id="collection-cash-count">0 transactions</div>
+                    </div>
+                    <div class="stat-card collection-card upi-card">
+                        <div class="stat-label">📱 UPI</div>
+                        <div class="stat-value" id="collection-upi">₹0</div>
+                        <div class="stat-change" id="collection-upi-count">0 transactions</div>
+                    </div>
+                    <div class="stat-card collection-card card-card">
+                        <div class="stat-label">💳 Card</div>
+                        <div class="stat-value" id="collection-card">₹0</div>
+                        <div class="stat-change" id="collection-card-count">0 transactions</div>
+                    </div>
+                    <div class="stat-card collection-card total-card">
+                        <div class="stat-label">🏦 Total Collection</div>
+                        <div class="stat-value" id="collection-total">₹0</div>
+                        <div class="stat-change" id="collection-total-count">0 transactions</div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3 class="panel-title">Collection Summary</h3>
+                    <div class="collection-bar-container" id="collection-bars">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction History -->
+            <div class="view" id="view-history">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">📜 Transaction History</h1>
+                        <p class="page-subtitle">All completed payments</p>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="table-wrapper">
+                        <table class="data-table" id="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Type</th>
+                                    <th>Subtotal</th>
+                                    <th>Tax (5%)</th>
+                                    <th>Discount</th>
+                                    <th>Final</th>
+                                    <th>Method</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-tbody">
+                                <tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:40px;">No transactions yet</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bill Modal -->
+    <div class="modal-overlay" id="bill-modal">
+        <div class="modal-content" style="max-width:480px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Generate Bill</h2>
+                <button class="modal-close" onclick="closeBillModal()">×</button>
+            </div>
+            <div id="bill-content">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+    <script src="sounds.js"></script>
+    <script src="api.js"></script>
+    <script src="cashier.js"></script>
+</body>
+</html>

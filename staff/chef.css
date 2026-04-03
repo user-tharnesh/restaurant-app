@@ -1,0 +1,185 @@
+/* ===== Chef / Kitchen Dashboard Styles ===== */
+
+.view {
+    display: none;
+}
+.view.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Live Indicator */
+.live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--danger);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--danger);
+    border-radius: 50%;
+    animation: livePulse 1.5s infinite;
+}
+
+@keyframes livePulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+/* Kitchen Orders Grid — larger cards for kitchen visibility */
+.kitchen-orders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 20px;
+}
+
+/* Kitchen Order Card — larger, high contrast for kitchen environment */
+.kitchen-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    animation: fadeIn 0.3s ease;
+}
+
+.kitchen-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.kitchen-card.urgent {
+    border-color: var(--danger);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+}
+
+.kitchen-card.cooking-active {
+    border-color: var(--status-cooking);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.kitchen-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.kitchen-order-id {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+}
+
+.kitchen-order-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.kitchen-order-type {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.kitchen-order-time {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.time-elapsed {
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+}
+
+.time-elapsed.normal { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+.time-elapsed.warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+.time-elapsed.critical { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+.kitchen-card-body {
+    padding: 20px;
+}
+
+.kitchen-items-list {
+    list-style: none;
+}
+
+.kitchen-items-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    font-size: 1.05rem;
+}
+
+.kitchen-items-list li:last-child {
+    border-bottom: none;
+}
+
+.item-qty {
+    font-weight: 700;
+    color: var(--accent-gold);
+    margin-right: 8px;
+}
+
+.kitchen-notes {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    color: var(--warning);
+}
+
+.kitchen-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-top: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.01);
+    gap: 12px;
+}
+
+.kitchen-waiter-info {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Queue Count Badge */
+.queue-count {
+    background: var(--warning);
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    margin-left: auto;
+    display: none;
+}
+
+.queue-count.show {
+    display: inline-block;
+    animation: pulse 2s infinite;
+}
+
+@media (max-width: 768px) {
+    .kitchen-orders-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .kitchen-order-id {
+        font-size: 1rem;
+    }
+}

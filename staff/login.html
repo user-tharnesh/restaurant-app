@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultured Kitchen | Staff Login</title>
+    <meta name="description" content="Staff login portal for Cultured Kitchen restaurant management system.">
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-page">
+        <!-- Animated background particles -->
+        <div class="bg-particles" id="particles"></div>
+        <div class="bg-glow"></div>
+
+        <div class="login-container" id="login-container">
+            <div class="login-brand">
+                <div class="brand-icon">🍽️</div>
+                <h1 class="brand-name">CULTURED KITCHEN</h1>
+                <p class="brand-tagline">Staff Management Portal</p>
+            </div>
+
+            <form id="login-form" class="login-form" autocomplete="off">
+                <div class="input-group">
+                    <label for="username" class="input-label">Username</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" id="username" name="username" required placeholder="Enter your username" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="password" class="input-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="password" name="password" required placeholder="Enter your password" autocomplete="off">
+                        <button type="button" class="toggle-password" id="toggle-password" aria-label="Toggle password visibility">👁️</button>
+                    </div>
+                </div>
+
+                <div class="login-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember-me">
+                        <span class="checkmark"></span>
+                        Remember Me
+                    </label>
+                </div>
+
+                <div class="error-message" id="error-message">
+                    <span>⚠️</span>
+                    <span id="error-text">Invalid credentials. Please try again.</span>
+                </div>
+
+                <button type="submit" class="login-btn" id="login-btn">
+                    <span class="btn-text">Sign In</span>
+                    <span class="btn-loader" id="btn-loader"></span>
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <a href="../index.html" class="back-link">← Back to Restaurant</a>
+            </div>
+        </div>
+
+        <!-- Role badge (shows after login attempt) -->
+        <div class="role-badge" id="role-badge">
+            <span class="role-icon" id="role-icon"></span>
+            <span class="role-name" id="role-name"></span>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>

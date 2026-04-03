@@ -1,0 +1,172 @@
+/* ===== Cashier Dashboard Styles ===== */
+
+.view { display: none; }
+.view.active { display: block; animation: fadeIn 0.3s ease; }
+
+/* Collection Cards */
+.collection-card {
+    position: relative;
+    overflow: hidden;
+}
+.collection-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+}
+
+.cash-card::after { background: linear-gradient(90deg, #10b981, #059669); opacity: 1; }
+.upi-card::after { background: linear-gradient(90deg, #3b82f6, #2563eb); opacity: 1; }
+.card-card::after { background: linear-gradient(90deg, #8b5cf6, #7c3aed); opacity: 1; }
+.total-card::after { background: linear-gradient(90deg, #eab308, #ca8a04); opacity: 1; }
+
+/* Collection Bar */
+.collection-bar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px 0;
+}
+
+.collection-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.collection-bar-label {
+    min-width: 80px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.collection-bar-track {
+    flex: 1;
+    height: 28px;
+    background: var(--bg-input);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    position: relative;
+}
+
+.collection-bar-fill {
+    height: 100%;
+    border-radius: var(--radius-full);
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    min-width: fit-content;
+}
+
+.collection-bar-fill.cash { background: linear-gradient(90deg, #10b981, #059669); }
+.collection-bar-fill.upi { background: linear-gradient(90deg, #3b82f6, #2563eb); }
+.collection-bar-fill.card { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
+
+.collection-bar-value {
+    min-width: 80px;
+    text-align: right;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Bill Modal Content */
+.bill-order-id {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    margin-bottom: 16px;
+}
+
+.bill-items {
+    list-style: none;
+    margin-bottom: 16px;
+}
+
+.bill-items li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 0.9rem;
+}
+
+.bill-divider {
+    border: none;
+    border-top: 1px dashed var(--border-color);
+    margin: 12px 0;
+}
+
+.bill-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 0.9rem;
+}
+
+.bill-row.total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    padding-top: 12px;
+}
+
+.bill-payment-section {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.payment-methods {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.payment-method-btn {
+    flex: 1;
+    padding: 14px 12px;
+    background: var(--bg-input);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all var(--transition-fast);
+}
+
+.payment-method-btn:hover {
+    border-color: var(--accent-gold-border);
+    color: var(--text-primary);
+}
+
+.payment-method-btn.selected {
+    border-color: var(--accent-gold);
+    background: var(--accent-gold-glow);
+    color: var(--accent-gold);
+}
+
+.payment-method-icon {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+}
+
+/* Table wrapper */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+/* Method badges in table */
+.method-cash { color: var(--success); }
+.method-upi { color: var(--info); }
+.method-card { color: var(--status-served); }

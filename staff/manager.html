@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultured Kitchen | Manager Dashboard</title>
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="manager.css">
+</head>
+<body>
+    <button class="mobile-toggle" id="mobile-toggle">☰</button>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">CULTURED KITCHEN</div>
+                <div class="sidebar-role">Manager Dashboard</div>
+            </div>
+            <ul class="sidebar-nav">
+                <li>
+                    <button class="active" data-view="overview" onclick="switchView('overview')">
+                        <span class="nav-icon">📊</span> Overview
+                    </button>
+                </li>
+                <li>
+                    <button data-view="inventory" onclick="switchView('inventory')">
+                        <span class="nav-icon">📦</span> Inventory
+                    </button>
+                </li>
+                <li>
+                    <button data-view="orders" onclick="switchView('orders')">
+                        <span class="nav-icon">📋</span> All Orders
+                    </button>
+                </li>
+                <li>
+                    <button data-view="staff" onclick="switchView('staff')">
+                        <span class="nav-icon">👥</span> Staff
+                    </button>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="user-avatar">M</div>
+                    <div>
+                        <div class="user-name" id="user-name">Manager</div>
+                        <div class="user-role-tag">Manager</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">🚪 Sign Out</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- Overview -->
+            <div class="view active" id="view-overview">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">📊 Dashboard Overview</h1>
+                        <p class="page-subtitle" id="overview-date">Today's Performance</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Orders</div>
+                        <div class="stat-value" id="ov-total-orders">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Revenue</div>
+                        <div class="stat-value" id="ov-revenue">₹0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Avg Order Value</div>
+                        <div class="stat-value" id="ov-avg">₹0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Estimated Profit</div>
+                        <div class="stat-value" id="ov-profit">₹0</div>
+                        <div class="stat-change positive" id="ov-margin">~40% margin</div>
+                    </div>
+                </div>
+
+                <div class="overview-grid">
+                    <div class="panel">
+                        <h3 class="panel-title">Order Status Breakdown</h3>
+                        <div class="status-bars" id="status-bars">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <h3 class="panel-title">Payment Method Split</h3>
+                        <div class="payment-split" id="payment-split">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Top Selling Items</h3>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Item</th>
+                                    <th>Qty Sold</th>
+                                    <th>Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody id="top-items-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory -->
+            <div class="view" id="view-inventory">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">📦 Inventory Management</h1>
+                        <p class="page-subtitle">Track stock levels and manage supplies</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openInventoryModal()">➕ Add Item</button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Items</div>
+                        <div class="stat-value" id="inv-total">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Low Stock Alerts</div>
+                        <div class="stat-value" id="inv-low" style="color:var(--danger)">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Inventory Value</div>
+                        <div class="stat-value" id="inv-value">₹0</div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Cost/Unit</th>
+                                    <th>Total Value</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- All Orders -->
+            <div class="view" id="view-orders">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">📋 All Orders</h1>
+                        <p class="page-subtitle">Complete order history</p>
+                    </div>
+                    <div class="filter-tabs-inline">
+                        <button class="filter-tab active" data-filter="all" onclick="filterAllOrders('all')">All</button>
+                        <button class="filter-tab" data-filter="pending" onclick="filterAllOrders('pending')">Pending</button>
+                        <button class="filter-tab" data-filter="cooking" onclick="filterAllOrders('cooking')">Cooking</button>
+                        <button class="filter-tab" data-filter="ready" onclick="filterAllOrders('ready')">Ready</button>
+                        <button class="filter-tab" data-filter="served" onclick="filterAllOrders('served')">Served</button>
+                        <button class="filter-tab" data-filter="paid" onclick="filterAllOrders('paid')">Paid</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Type</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Waiter</th>
+                                    <th>Chef</th>
+                                    <th>Status</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="all-orders-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Staff -->
+            <div class="view" id="view-staff">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">👥 Staff Overview</h1>
+                        <p class="page-subtitle">All staff members and their activity</p>
+                    </div>
+                </div>
+
+                <div class="staff-grid" id="staff-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Inventory Modal -->
+    <div class="modal-overlay" id="inventory-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="inv-modal-title">Add Inventory Item</h2>
+                <button class="modal-close" onclick="closeInventoryModal()">×</button>
+            </div>
+            <form id="inventory-form" onsubmit="saveInventoryItem(event)">
+                <input type="hidden" id="inv-edit-id">
+                <div class="form-group">
+                    <label class="form-label">Item Name</label>
+                    <input type="text" class="form-input" id="inv-name" required placeholder="e.g. Basmati Rice">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" class="form-input" id="inv-qty" required min="0" placeholder="50">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Unit</label>
+                        <select class="form-select" id="inv-unit">
+                            <option value="kg">Kg</option>
+                            <option value="g">Grams</option>
+                            <option value="litre">Litres</option>
+                            <option value="pcs">Pieces</option>
+                            <option value="pkt">Packets</option>
+                            <option value="dozen">Dozen</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Cost per Unit (₹)</label>
+                        <input type="number" class="form-input" id="inv-cost" required min="0" placeholder="120">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Low Stock Threshold</label>
+                        <input type="number" class="form-input" id="inv-threshold" required min="0" placeholder="10">
+                    </div>
+                </div>
+                <div style="display:flex;gap:12px;margin-top:8px;">
+                    <button type="button" class="btn btn-secondary" style="flex:1" onclick="closeInventoryModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="flex:1">Save Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+    <script src="api.js"></script>
+    <script src="manager.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+node_modules/
+cultured_kitchen.db
+cultured_kitchen.db-shm
+cultured_kitchen.db-wal
+.env
+*.log
