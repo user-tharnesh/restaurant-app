@@ -13,18 +13,19 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static files (index.html, style.css, images, etc.)
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname), { extensions: ['html'] }));
 
 // ===== Database Setup =====
-if (!process.env.DATABASE_URL) {
-    console.error("ERROR: DATABASE_URL environment variable is missing.");
-    process.exit(1);
+const poolStr = process.env.DATABASE_URL;
+if (!poolStr) {
+    console.error("⚠️ WARNING: DATABASE_URL environment variable is missing.");
+    console.error("⚠️ The frontend will load, but API calls will fail until the database is configured in Render.");
 }
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
+const pool = poolStr ? new Pool({
+    connectionString: poolStr,
     ssl: { rejectUnauthorized: false }
-});
+}) : null;
 
 async function initDB() {
     try {
