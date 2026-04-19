@@ -151,6 +151,55 @@ async function saveInventoryItem(e) {
     refreshInventory();
 }
 
+// ===== AI Features =====
+async function generateAIBriefing() {
+    const btn = document.getElementById('btn-generate-ai');
+    const content = document.getElementById('ai-briefing-content');
+    
+    btn.disabled = true;
+    btn.textContent = "Analyzing...";
+    content.innerHTML = `<p style="color:var(--accent-gold); margin:0;">Scanning orders, inventory, and transactions... please wait.</p>`;
+
+    try {
+        // We use relative path or domain depending on deployment. It's under the same domain.
+        const response = await fetch('/api/ai/daily-briefing');
+        const data = await response.json();
+        
+        // Web Speech API for voice readout
+        function speakBriefing(htmlString) {
+            // Strip HTML tags for clean voice
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = htmlString;
+            const cleanText = tempDiv.textContent || tempDiv.innerText || "";
+            
+            // Stop any ongoing speech first
+            window.speechSynthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance("Here is your daily AI briefing: " + cleanText);
+            // Feel free to tweak voice pitch and speed optionally:
+            // utterance.rate = 1.0; 
+            // utterance.pitch = 1.0;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        if (data.success && data.data && data.data.briefingHtml) {
+            content.innerHTML = `<div style="background:rgba(255,193,7,0.1); padding: 15px; border-radius: 8px;">${data.data.briefingHtml}</div>`;
+            speakBriefing(data.data.briefingHtml);
+        } else if (data.success && data.data) {
+             const key = Object.keys(data.data)[0];
+             content.innerHTML = `<div style="background:rgba(255,193,7,0.1); padding: 15px; border-radius: 8px;">${data.data[key]}</div>`;
+             speakBriefing(data.data[key]);
+        } else {
+            content.innerHTML = `<p style="color:var(--danger); margin:0;">Error: ${data.message} ${data.error || ''}</p>`;
+        }
+    } catch (e) {
+        content.innerHTML = `<p style="color:var(--danger); margin:0;">Error connecting to server to generate briefing.</p>`;
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "Generate Briefing";
+    }
+}
+
 // ===== All Orders (API) =====
 function filterAllOrders(status) {
     orderFilterStatus = status;

@@ -80,6 +80,16 @@
                     </div>
                 </div>
 
+                <div class="panel ai-briefing-panel" style="background: linear-gradient(145deg, #1f2235, #151829); border: 1px solid var(--accent-gold); margin-bottom: 20px;">
+                    <div style="justify-content: space-between; align-items: center; display: flex; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                        <h3 class="panel-title" style="margin:0; color:var(--accent-gold);">🌟 AI Daily Briefing & Anomaly Detection</h3>
+                        <button class="btn btn-primary" onclick="generateAIBriefing()" id="btn-generate-ai">Generate Briefing</button>
+                    </div>
+                    <div id="ai-briefing-content" style="margin-top: 15px; font-size: 0.95rem; color: #cbd5e1; line-height: 1.5;">
+                        <p style="margin:0;">Click "Generate Briefing" to analyze today's orders, transactions, and identify actionable anomalies.</p>
+                    </div>
+                </div>
+
                 <div class="overview-grid">
                     <div class="panel">
                         <h3 class="panel-title">Order Status Breakdown</h3>
