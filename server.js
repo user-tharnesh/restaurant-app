@@ -355,7 +355,10 @@ app.put('/api/orders/:id', async (req, res) => {
         }
 
         res.json({ success: true });
-    } catch(e) { res.status(500).json({ error: e.message }); }
+    } catch(e) { 
+        console.error("PUT /api/orders error:", e);
+        res.status(500).json({ error: e.message }); 
+    }
 });
 
 // ===== INVENTORY =====
