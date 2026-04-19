@@ -343,7 +343,7 @@ app.put('/api/orders/:id', async (req, res) => {
             fields.push(`updatedAt = $${i++}`);
             values.push(now);
             values.push(id);
-            await pool.query(`UPDATE orders SET ${fields.join(', ')} WHERE id = $${i-1}`, values);
+            await pool.query(`UPDATE orders SET ${fields.join(', ')} WHERE id = $${i}`, values);
         }
 
         if (updates.status === 'cooking') {
@@ -370,7 +370,7 @@ app.post('/api/inventory', async (req, res) => {
     try {
         const i = req.body;
         const result = await pool.query(
-            'INSERT INTO inventory (name, quantity, unit, "costPerUnit", "lowStockThreshold") VALUES ($1, $2, $3, $4, $5) RETURNING id',
+            'INSERT INTO inventory (name, quantity, unit, costPerUnit, lowStockThreshold) VALUES ($1, $2, $3, $4, $5) RETURNING id',
             [i.name, i.quantity, i.unit, i.costPerUnit, i.lowStockThreshold]
         );
         res.json({ success: true, id: result.rows[0].id });
@@ -381,7 +381,7 @@ app.put('/api/inventory/:id', async (req, res) => {
     try {
         const i = req.body;
         await pool.query(
-            'UPDATE inventory SET name = $1, quantity = $2, unit = $3, "costPerUnit" = $4, "lowStockThreshold" = $5 WHERE id = $6',
+            'UPDATE inventory SET name = $1, quantity = $2, unit = $3, costPerUnit = $4, lowStockThreshold = $5 WHERE id = $6',
             [i.name, i.quantity, i.unit, i.costPerUnit, i.lowStockThreshold, req.params.id]
         );
         res.json({ success: true });
